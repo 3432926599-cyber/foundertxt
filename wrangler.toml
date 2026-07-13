@@ -1,0 +1,7 @@
+# FounderTxt — Cloudflare Pages with Functions
+# Deploy: wrangler pages deploy . --project-name=foundertxt --branch=main
+# Set secret: wrangler pages secret put DEEPSEEK_API_KEY --project-name=foundertxt
+
+name = "foundertxt"
+compatibility_date = "2026-07-13"
+pages_build_output_dir = "."

@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
+  <meta name="x5-orientation" content="portrait">
+  <meta name="x5-fullscreen" content="true">
+  <meta name="x5-page-mode" content="app">
+  <meta name="format-detection" content="telephone=no,email=no">
+  <title>FounderTxt — Generate Your Tweet</title>
+  <meta name="description" content="Pick a battle-tested founder template, fill in your details, and get a tweet in 30 seconds.">
+  <link rel="stylesheet" href="marvis-design-system.css">
+  <style>
+    /* ===== Layout ===== */
+
+    .app-container {
+      max-width: var(--mvs-content-max-width);
+      margin: 0 auto;
+      padding: 0 var(--mvs-space-2xl);
+    }
+
+    /* ===== Nav ===== */
+
+    .app-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: 56px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(15, 15, 15, 0.06);
+    }
+
+    .app-nav__inner {
+      max-width: var(--mvs-content-max-width);
+      margin: 0 auto;
+      padding: 0 var(--mvs-space-2xl);
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .app-nav__logo {
+      font-size: var(--mvs-fs-h2);
+      font-weight: var(--mvs-fw-bold);
+      color: var(--mvs-text-pure-black);
+      letter-spacing: -0.02em;
+      text-decoration: none;
+    }
+
+    .app-nav__links {
+      display: flex;
+      align-items: center;
+      gap: var(--mvs-space-lg);
+    }
+
+    .app-nav__links a {
+      font-size: var(--mvs-fs-body-sm);
+      color: var(--mvs-text-secondary);
+      text-decoration: none;
+      transition: color 150ms ease;
+    }
+
+    .app-nav__links a:hover {
+      color: var(--mvs-text-primary);
+    }
+
+    /* ===== Page Header ===== */
+
+    .app-header {
+      padding: var(--mvs-space-5xl) 0 var(--mvs-space-3xl) 0;
+      text-align: center;
+    }
+
+    .app-header__title {
+      font-size: var(--mvs-fs-h1);
+      font-weight: var(--mvs-fw-bold);
+      color: var(--mvs-text-pure-black);
+      margin: 0 0 var(--mvs-space-sm) 0;
+    }
+
+    .app-header__sub {
+      font-size: var(--mvs-fs-body);
+      color: var(--mvs-text-secondary);
+      margin: 0;
+    }
+
+    /* ===== Steps Indicator ===== */
+
+    .steps-indicator {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--mvs-space-sm);
+      margin-bottom: var(--mvs-space-3xl);
+    }
+
+    .step-dot {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.04);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--mvs-fs-caption);
+      font-weight: var(--mvs-fw-semibold);
+      color: var(--mvs-text-tertiary);
+      transition: all 200ms ease;
+    }
+
+    .step-dot--active {
+      background: var(--mvs-btn-primary-bg);
+      color: var(--mvs-btn-primary-text);
+    }
+
+    .step-dot--done {
+      background: rgba(0, 0, 0, 0.08);
+      color: var(--mvs-text-primary);
+    }
+
+    .step-line {
+      width: 40px;
+      height: 1px;
+      background: rgba(0, 0, 0, 0.08);
+    }
+
+    .step-label {
+      font-size: var(--mvs-fs-caption);
+      color: var(--mvs-text-tertiary);
+      text-align: center;
+      margin-top: var(--mvs-space-xs);
+    }
+
+    .step-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ===== Pattern Grid ===== */
+
+    #pattern-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--mvs-space-lg);
+      margin-bottom: var(--mvs-space-3xl);
+    }
+
+    .pattern-card {
+      cursor: pointer;
+      transition: transform 150ms ease, background-color 150ms ease;
+      user-select: none;
+    }
+
+    .pattern-card:hover {
+      transform: translateY(-2px);
+      background: rgba(0, 0, 0, 0.04);
+    }
+
+    .pattern-card--selected {
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      background: rgba(0, 0, 0, 0.02);
+    }
+
+    .pattern-card__inner {
+      padding: var(--mvs-space-xl);
+      display: flex;
+      flex-direction: column;
+      gap: var(--mvs-space-sm);
+    }
+
+    .pattern-card__emoji {
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    .pattern-card__name {
+      font-size: var(--mvs-fs-h3);
+      font-weight: var(--mvs-fw-medium);
+      color: var(--mvs-text-pure-black);
+    }
+
+    .pattern-card__desc {
+      font-size: var(--mvs-fs-caption);
+      color: var(--mvs-text-tertiary);
+      line-height: var(--mvs-lh-caption);
+    }
+
+    .pattern-card__tier {
+      display: inline-flex;
+      align-items: center;
+      height: 22px;
+      padding: 0 var(--mvs-space-sm);
+      border-radius: var(--mvs-radius-pill-xs);
+      font-size: var(--mvs-fs-tiny);
+      font-weight: var(--mvs-fw-medium);
+    }
+
+    .pattern-card__tier--free {
+      background: rgba(0, 0, 0, 0.04);
+      color: var(--mvs-text-secondary);
+    }
+
+    .pattern-card__tier--pro {
+      background: rgba(0, 0, 0, 0.06);
+      color: var(--mvs-text-tertiary);
+    }
+
+    /* ===== Fill Blanks ===== */
+
+    #fill-section {
+      display: none;
+      margin-bottom: var(--mvs-space-3xl);
+    }
+
+    #fill-section.visible {
+      display: block;
+    }
+
+    .fill-card {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .fill-card__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--mvs-space-lg) var(--mvs-space-xl);
+      border-bottom: var(--mvs-border-subtle);
+    }
+
+    .fill-card__pattern-name {
+      font-size: var(--mvs-fs-h3);
+      font-weight: var(--mvs-fw-medium);
+      color: var(--mvs-text-primary);
+    }
+
+    .fill-card__body {
+      padding: var(--mvs-space-xl);
+      display: flex;
+      flex-direction: column;
+      gap: var(--mvs-space-lg);
+    }
+
+    .fill-field__label {
+      display: block;
+      font-size: var(--mvs-fs-body-sm);
+      font-weight: var(--mvs-fw-medium);
+      color: var(--mvs-text-primary);
+      margin-bottom: var(--mvs-space-sm);
+    }
+
+    .fill-field__input {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.03);
+      border: none;
+      border-radius: var(--mvs-radius-input);
+      padding: var(--mvs-space-md) var(--mvs-space-lg);
+      font-size: var(--mvs-fs-body);
+      font-family: var(--mvs-font-ui);
+      color: var(--mvs-text-primary);
+      line-height: var(--mvs-lh-body);
+      outline: none;
+      transition: background-color 150ms ease;
+      box-sizing: border-box;
+      resize: none;
+    }
+
+    .fill-field__input:focus {
+      background: rgba(0, 0, 0, 0.05);
+    }
+
+    .fill-field__input::placeholder {
+      color: var(--mvs-text-placeholder);
+    }
+
+    .fill-field__hint {
+      font-size: var(--mvs-fs-caption);
+      color: var(--mvs-text-tertiary);
+      margin-top: var(--mvs-space-xs);
+      text-align: right;
+    }
+
+    .fill-card__actions {
+      display: flex;
+      align-items: center;
+      gap: var(--mvs-space-md);
+      padding: 0 var(--mvs-space-xl) var(--mvs-space-xl) var(--mvs-space-xl);
+    }
+
+    /* ===== Result ===== */
+
+    #result-section {
+      display: none;
+      margin-bottom: var(--mvs-space-3xl);
+    }
+
+    #result-section.visible {
+      display: block;
+    }
+
+    .result-card {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .result-card__body {
+      padding: var(--mvs-space-xl);
+    }
+
+    .result-card__tweet {
+      font-size: var(--mvs-fs-body);
+      color: var(--mvs-text-primary);
+      line-height: var(--mvs-lh-body);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .result-card__char-count {
+      font-size: var(--mvs-fs-caption);
+      color: var(--mvs-text-tertiary);
+      margin-top: var(--mvs-space-md);
+    }
+
+    .result-card__char-count--over {
+      color: var(--mvs-color-error);
+    }
+
+    .result-card__actions {
+      display: flex;
+      align-items: center;
+      gap: var(--mvs-space-md);
+      padding: 0 var(--mvs-space-xl) var(--mvs-space-xl) var(--mvs-space-xl);
+    }
+
+    /* ===== Upgrade Banner ===== */
+
+    .upgrade-section {
+      max-width: 600px;
+      margin: 0 auto var(--mvs-space-5xl) auto;
+    }
+
+    .upgrade-card__body {
+      padding: var(--mvs-space-xl);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--mvs-space-lg);
+      flex-wrap: wrap;
+    }
+
+    .upgrade-card__text {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .upgrade-card__title {
+      font-size: var(--mvs-fs-h3);
+      font-weight: var(--mvs-fw-medium);
+      color: var(--mvs-text-pure-black);
+      margin: 0 0 var(--mvs-space-xs) 0;
+    }
+
+    .upgrade-card__desc {
+      font-size: var(--mvs-fs-body-sm);
+      color: var(--mvs-text-secondary);
+      margin: 0;
+    }
+
+    /* ===== Loading Spinner ===== */
+
+    .spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-top-color: #ffffff;
+      border-radius: 50%;
+      animation: spin 600ms linear infinite;
+      vertical-align: middle;
+      margin-right: var(--mvs-space-sm);
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ===== Toast ===== */
+
+    .toast-container {
+      position: fixed;
+      top: var(--mvs-space-2xl);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      pointer-events: none;
+    }
+
+    /* ===== Footer ===== */
+
+    .app-footer {
+      border-top: var(--mvs-border-subtle);
+      padding: var(--mvs-space-3xl) 0;
+      margin-top: var(--mvs-space-5xl);
+    }
+
+    .app-footer__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--mvs-space-md);
+    }
+
+    .app-footer__links {
+      display: flex;
+      gap: var(--mvs-space-lg);
+    }
+
+    .app-footer__links a {
+      font-size: var(--mvs-fs-caption);
+      color: var(--mvs-text-tertiary);
+      text-decoration: none;
+      transition: color 150ms ease;
+    }
+
+    .app-footer__links a:hover {
+      color: var(--mvs-text-primary);
+    }
+
+    .app-footer__copy {
+      font-size: var(--mvs-fs-caption);
+      color: var(--mvs-text-tertiary);
+    }
+
+    /* ===== Responsive ===== */
+
+    @media (max-width: 1324px) {
+      #pattern-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 1081px) {
+      #pattern-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .app-container {
+        padding: 0 var(--mvs-space-xl);
+      }
+      .app-nav__inner {
+        padding: 0 var(--mvs-space-xl);
+      }
+    }
+
+    @media (max-width: 901px) {
+      #pattern-grid {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .app-header__title {
+        font-size: var(--mvs-fs-h2);
+      }
+      .app-nav {
+        height: 48px;
+      }
+      .app-footer__inner {
+        flex-direction: column;
+        text-align: center;
+      }
+      .fill-card__actions {
+        flex-direction: column;
+      }
+      .fill-card__actions .mvs-btn {
+        width: 100%;
+      }
+      .result-card__actions {
+        flex-direction: column;
+      }
+      .result-card__actions .mvs-btn {
+        width: 100%;
+      }
+      .upgrade-card__body {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== Navigation ===== -->
+  <nav class="app-nav">
+    <div class="app-nav__inner">
+      <a href="index.html" class="app-nav__logo">FounderTxt</a>
+      <div class="app-nav__links">
+        <a href="index.html">Home</a>
+        <a href="index.html#pricing">Pricing</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== Page Header ===== -->
+  <header class="app-header">
+    <div class="app-container">
+      <h1 class="app-header__title">What do you want to tweet today?</h1>
+      <p class="app-header__sub">Pick a pattern → fill in the blanks → copy your tweet</p>
+    </div>
+  </header>
+
+  <div class="app-container">
+
+    <!-- ===== Step 1: Pattern Grid ===== -->
+    <div id="pattern-grid">
+      <!-- Rendered by app.js -->
+    </div>
+
+    <!-- ===== Step 2: Fill Blanks ===== -->
+    <div id="fill-section">
+      <div class="mvs-card fill-card">
+        <div class="fill-card__header">
+          <span class="fill-card__pattern-name" id="fill-pattern-name"></span>
+          <button class="mvs-btn mvs-btn--default" onclick="App.backToGrid()" style="height:30px;font-size:var(--mvs-fs-caption);padding:0 var(--mvs-space-md);">← Change Pattern</button>
+        </div>
+        <div class="fill-card__body" id="fill-blanks">
+          <!-- Rendered by app.js -->
+        </div>
+        <div class="fill-card__actions">
+          <button class="mvs-btn mvs-btn--primary" id="btn-generate" onclick="App.generate()">
+            ✨ Generate Tweet
+          </button>
+          <span style="font-size:var(--mvs-fs-caption);color:var(--mvs-text-tertiary);">Free — no sign-up required</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Step 3: Result ===== -->
+    <div id="result-section">
+      <div class="mvs-card result-card">
+        <div class="result-card__body">
+          <p class="result-card__tweet" id="result-text"></p>
+          <p class="result-card__char-count" id="result-char-count"></p>
+        </div>
+        <div class="result-card__actions">
+          <button class="mvs-btn mvs-btn--primary" id="btn-copy" onclick="App.copy()">📋 Copy Tweet</button>
+          <button class="mvs-btn mvs-btn--default" onclick="App.generate()">🔄 Regenerate</button>
+          <button class="mvs-btn mvs-btn--default" onclick="App.backToGrid()">Try Different Pattern</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Upgrade Banner ===== -->
+    <div class="upgrade-section">
+      <div class="mvs-card upgrade-card" style="border: 1px solid rgba(0,0,0,0.08);">
+        <div class="upgrade-card__body">
+          <div class="upgrade-card__text">
+            <h3 class="upgrade-card__title">Pro — $5/month</h3>
+            <p class="upgrade-card__desc">All 14 patterns, priority AI model, tweet history. Cancel anytime.</p>
+          </div>
+          <a href="#" class="mvs-btn mvs-btn--primary" id="btn-upgrade">Upgrade to Pro</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== Footer ===== -->
+  <footer class="app-footer">
+    <div class="app-container app-footer__inner">
+      <div style="display:flex;align-items:center;gap:var(--mvs-space-lg);">
+        <span style="font-size:var(--mvs-fs-body-sm);font-weight:var(--mvs-fw-medium);color:var(--mvs-text-primary);">FounderTxt</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:var(--mvs-space-xl);">
+        <nav class="app-footer__links">
+          <a href="tos.html">Terms of Service</a>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="refund.html">Refund Policy</a>
+        </nav>
+        <span class="app-footer__copy">&copy; 2026 FounderTxt</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== Toast ===== -->
+  <div class="toast-container" id="toast-container">
+    <div class="mvs-toast" id="toast">
+      <span class="mvs-toast__title" id="toast-msg">Copied!</span>
+    </div>
+  </div>
+
+  <script src="public/app.js"></script>
+</body>
+</html>
