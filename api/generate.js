@@ -1,21 +1,14 @@
 // ============================================================
-// FounderTxt — Cloudflare Pages Functions (catch-all)
-// Handles /api/generate, /api/webhooks/waffo
-// All other requests → static files
+// FounderTxt — Vercel Serverless Function
+// Handles POST /api/generate
 // ============================================================
 
 // ── 14 Patterns ─────────────────────────────────────────────
 // ⚠️ 同步提醒：修改/新增 pattern 时需同步更新 public/app.js 中的 PATTERNS
+
 const PATTERNS = {
   "metric-lesson": {
-    id: "metric-lesson",
-    name: "Metric + Lesson",
-    emoji: "💰",
-    description: "Share a number with a surprising insight",
-    fillBlanks: [
-      { id: "metric", label: "What metric surprised you?", placeholder: "e.g. 70% of my signups came from one Reddit comment", maxLength: 200 },
-      { id: "lesson", label: "What's the lesson?", placeholder: "e.g. Reply to existing threads instead of making new posts", maxLength: 200 },
-    ],
+    id: "metric-lesson", name: "Metric + Lesson", emoji: "💰",
     systemPrompt: `Generate ONE tweet (max 280 chars).
 
 Pattern: Metric + Lesson
@@ -31,17 +24,8 @@ Rules:
 - No emoji spam, no hashtags, no "thread 🧵"`,
     tier: "free",
   },
-
   "dead-feature": {
-    id: "dead-feature",
-    name: "Dead Feature",
-    emoji: "💀",
-    description: "A feature you shipped that nobody used",
-    fillBlanks: [
-      { id: "feature", label: "What feature did you build?", placeholder: "e.g. A drag-and-drop dashboard builder", maxLength: 200 },
-      { id: "data", label: "What did the usage data show?", placeholder: "e.g. 3 users in 2 months, all churned within a week", maxLength: 200 },
-      { id: "lesson", label: "What did you learn?", placeholder: "e.g. Users wanted pre-built reports, not a DIY tool", maxLength: 200 },
-    ],
+    id: "dead-feature", name: "Dead Feature", emoji: "💀",
     systemPrompt: `Generate ONE tweet (max 280 chars).
 
 Pattern: Dead Feature
@@ -56,17 +40,8 @@ Rules:
 - End with the actionable lesson`,
     tier: "free",
   },
-
   "wrong-assumption": {
-    id: "wrong-assumption",
-    name: "Wrong Assumption",
-    emoji: "🤦",
-    description: "A belief you had that data proved wrong",
-    fillBlanks: [
-      { id: "assumption", label: "What did you assume?", placeholder: "e.g. I thought annual plans would convert better", maxLength: 200 },
-      { id: "reality", label: "What did the data actually show?", placeholder: "e.g. Monthly converted at 4x the rate", maxLength: 200 },
-      { id: "takeaway", label: "What did you change?", placeholder: "e.g. Removed annual option, simplified to monthly only", maxLength: 200 },
-    ],
+    id: "wrong-assumption", name: "Wrong Assumption", emoji: "🤦",
     systemPrompt: `Generate ONE tweet (max 280 chars).
 
 Pattern: Wrong Assumption
@@ -81,17 +56,8 @@ Rules:
 - Don't sound arrogant about being right — sound curious about being wrong`,
     tier: "free",
   },
-
   "cost-breakdown": {
-    id: "cost-breakdown",
-    name: "Cost Breakdown",
-    emoji: "💸",
-    description: "Transparent breakdown of your monthly costs",
-    fillBlanks: [
-      { id: "total", label: "What's your total monthly cost?", placeholder: "e.g. $847/month", maxLength: 100 },
-      { id: "categories", label: "How does it break down?", placeholder: "e.g. $312 Postgres, $190 inference, $145 email, $200 misc", maxLength: 300 },
-      { id: "insight", label: "What surprised you about the costs?", placeholder: "e.g. Email is 3x what I expected, inference costs dropped 60% after switching models", maxLength: 200 },
-    ],
+    id: "cost-breakdown", name: "Cost Breakdown", emoji: "💸",
     systemPrompt: `Generate ONE tweet (max 280 chars).
 
 Pattern: Cost Breakdown
@@ -106,17 +72,8 @@ Rules:
 - Don't humble-brag — be genuinely transparent`,
     tier: "pro",
   },
-
   "pricing-experiment": {
-    id: "pricing-experiment",
-    name: "Pricing Experiment",
-    emoji: "🧪",
-    description: "A pricing change you tested and the results",
-    fillBlanks: [
-      { id: "change", label: "What pricing change did you make?", placeholder: "e.g. Raised from $19 to $39/month", maxLength: 200 },
-      { id: "expected", label: "What did you expect to happen?", placeholder: "e.g. Expected 20% churn from existing users", maxLength: 200 },
-      { id: "actual", label: "What actually happened?", placeholder: "e.g. Trial→paid conversion went up 22%, churn was only 8%", maxLength: 200 },
-    ],
+    id: "pricing-experiment", name: "Pricing Experiment", emoji: "🧪",
     systemPrompt: `Generate ONE tweet (max 280 chars).
 
 Pattern: Pricing Experiment
@@ -131,17 +88,8 @@ Rules:
 - Actionable takeaway`,
     tier: "pro",
   },
-
   "competitor-compliment": {
-    id: "competitor-compliment",
-    name: "Competitor Compliment",
-    emoji: "🏆",
-    description: "Genuinely praise something a competitor did well",
-    fillBlanks: [
-      { id: "competitor", label: "Which competitor?", placeholder: "e.g. Linear", maxLength: 100 },
-      { id: "feature", label: "What did they ship that impressed you?", placeholder: "e.g. Their new keyboard-first issue tracking", maxLength: 200 },
-      { id: "lesson", label: "What did you learn from it?", placeholder: "e.g. Speed > feature completeness for power users", maxLength: 200 },
-    ],
+    id: "competitor-compliment", name: "Competitor Compliment", emoji: "🏆",
     systemPrompt: `Generate ONE tweet (max 280 chars).
 
 Pattern: Competitor Compliment
@@ -157,17 +105,8 @@ Rules:
 - Don't backhand — be genuinely complimentary`,
     tier: "pro",
   },
-
   "before-after-refactor": {
-    id: "before-after-refactor",
-    name: "Before / After Refactor",
-    emoji: "⚡",
-    description: "Technical improvement with measurable results",
-    fillBlanks: [
-      { id: "what", label: "What did you refactor?", placeholder: "e.g. Rewrote the payment processing module", maxLength: 200 },
-      { id: "before", label: "What was it like before?", placeholder: "e.g. 2 second latency, 800 lines of code", maxLength: 200 },
-      { id: "after", label: "What's the result?", placeholder: "e.g. 200ms latency, 40% less code", maxLength: 200 },
-    ],
+    id: "before-after-refactor", name: "Before / After Refactor", emoji: "⚡",
     systemPrompt: `Generate ONE tweet (max 280 chars).
 
 Pattern: Before/After Refactor
@@ -182,17 +121,8 @@ Rules:
 - Keep it technical but readable by non-engineers`,
     tier: "pro",
   },
-
   "user-message": {
-    id: "user-message",
-    name: "User Message Changed Roadmap",
-    emoji: "💬",
-    description: "A user message that made you change direction",
-    fillBlanks: [
-      { id: "message", label: "What did the user say?", placeholder: "e.g. 'I love your tool but I can't use it because it doesn't export to CSV'", maxLength: 300 },
-      { id: "change", label: "What did you change?", placeholder: "e.g. Paused the analytics dashboard, built CSV export in 2 days", maxLength: 200 },
-      { id: "outcome", label: "What was the result?", placeholder: "e.g. Retention went up 30% the following week", maxLength: 200 },
-    ],
+    id: "user-message", name: "User Message Changed Roadmap", emoji: "💬",
     systemPrompt: `Generate ONE tweet (max 280 chars).
 
 Pattern: User Message Changed Roadmap
@@ -207,17 +137,8 @@ Rules:
 - Include the outcome`,
     tier: "pro",
   },
-
   "build-vs-buy": {
-    id: "build-vs-buy",
-    name: "Build vs Buy",
-    emoji: "🔧",
-    description: "Decision to build in-house vs use a service",
-    fillBlanks: [
-      { id: "decision", label: "What did you build instead of buy?", placeholder: "e.g. Built our own auth system instead of using Clerk", maxLength: 200 },
-      { id: "cost", label: "What's the ongoing cost?", placeholder: "e.g. 4 hours/month maintaining it, $0 direct cost", maxLength: 200 },
-      { id: "verdict", label: "Was it worth it?", placeholder: "e.g. Worth it at our scale, but if I started over I'd just pay for Clerk", maxLength: 200 },
-    ],
+    id: "build-vs-buy", name: "Build vs Buy", emoji: "🔧",
     systemPrompt: `Generate ONE tweet (max 280 chars).
 
 Pattern: Build vs Buy
@@ -232,17 +153,8 @@ Rules:
 - Honest verdict — was it worth it?`,
     tier: "pro",
   },
-
   "customer-support-story": {
-    id: "customer-support-story",
-    name: "Customer Support Story",
-    emoji: "🎧",
-    description: "A support interaction that taught you something",
-    fillBlanks: [
-      { id: "ticket", label: "What was the support issue?", placeholder: "e.g. User couldn't figure out how to invite their team", maxLength: 200 },
-      { id: "realization", label: "What did you realize?", placeholder: "e.g. The invite button was hidden behind 3 clicks", maxLength: 200 },
-      { id: "fix", label: "What did you fix?", placeholder: "e.g. Added a big 'Invite Team' button on the empty state", maxLength: 200 },
-    ],
+    id: "customer-support-story", name: "Customer Support Story", emoji: "🎧",
     systemPrompt: `Generate ONE tweet (max 280 chars).
 
 Pattern: Customer Support Story
@@ -257,17 +169,8 @@ Rules:
 - End with the fix and result`,
     tier: "pro",
   },
-
   "copy-checklist": {
-    id: "copy-checklist",
-    name: "Copy-Paste Checklist",
-    emoji: "📋",
-    description: "Actionable checklist others can copy",
-    fillBlanks: [
-      { id: "topic", label: "What's the checklist for?", placeholder: "e.g. Pre-launch checklist for SaaS products", maxLength: 150 },
-      { id: "items", label: "List 5-8 checklist items (one per line)", placeholder: "1. Set up error tracking\n2. Configure staging env\n3. Write rollback plan\n4. Test billing flow\n5. Prepare outage comms template", maxLength: 500 },
-      { id: "why", label: "What prompted this checklist?", placeholder: "e.g. Missed 3 of these on my first launch and paid for it", maxLength: 200 },
-    ],
+    id: "copy-checklist", name: "Copy-Paste Checklist", emoji: "📋",
     systemPrompt: `Generate ONE tweet (max 280 chars).
 
 Pattern: Copy-Paste Checklist
@@ -292,17 +195,8 @@ Rules:
 - Max 280 chars — keep items concise`,
     tier: "free",
   },
-
   "almost-quit": {
-    id: "almost-quit",
-    name: "Almost Quit Moment",
-    emoji: "📉",
-    description: "A specific moment you almost gave up",
-    fillBlanks: [
-      { id: "moment", label: "Describe the specific moment", placeholder: "e.g. Thursday 3pm, $847 AWS bill, 0 paying users, had the 'delete repo' dialog open", maxLength: 300 },
-      { id: "why_not", label: "Why didn't you quit?", placeholder: "e.g. One user emailed saying the product saved them 10 hours that week", maxLength: 200 },
-      { id: "now", label: "Where are you now?", placeholder: "e.g. $3.2k MRR, 47 paying customers, that same user is still a customer", maxLength: 200 },
-    ],
+    id: "almost-quit", name: "Almost Quit Moment", emoji: "📉",
     systemPrompt: `Generate ONE tweet (max 280 chars).
 
 Pattern: Almost Quit Moment
@@ -318,17 +212,8 @@ Rules:
 - Where you are now`,
     tier: "pro",
   },
-
   "sixty-day-retro": {
-    id: "sixty-day-retro",
-    name: "60-Day Retro",
-    emoji: "🔍",
-    description: "What you learned in 60 days of building",
-    fillBlanks: [
-      { id: "project", label: "What have you been building?", placeholder: "e.g. A project management tool for designers", maxLength: 150 },
-      { id: "wrong", label: "What did you get wrong?", placeholder: "e.g. Spent 6 weeks on the wrong problem — designers don't need another PM tool, they need a handoff tool", maxLength: 300 },
-      { id: "right", label: "What did you get right?", placeholder: "e.g. Talking to 3 users every week caught the problem before it was too late", maxLength: 200 },
-    ],
+    id: "sixty-day-retro", name: "60-Day Retro", emoji: "🔍",
     systemPrompt: `Generate ONE tweet (max 280 chars).
 
 Pattern: 60-Day Retro
@@ -344,17 +229,8 @@ Rules:
 - Forward-looking — what happens next`,
     tier: "pro",
   },
-
   "post-launch-different": {
-    id: "post-launch-different",
-    name: "Post-Launch: What I'd Do Different",
-    emoji: "🔄",
-    description: "After launching, what you'd change if starting over",
-    fillBlanks: [
-      { id: "launch", label: "What did you launch?", placeholder: "e.g. A no-code database builder", maxLength: 150 },
-      { id: "different", label: "What would you do differently?", placeholder: "e.g. Launch with 1 integration instead of 10, charge from day 1", maxLength: 300 },
-      { id: "advice", label: "What's your advice to someone starting today?", placeholder: "e.g. Ship when it's embarrassing, charge before you're ready", maxLength: 200 },
-    ],
+    id: "post-launch-different", name: "Post-Launch: What I'd Do Different", emoji: "🔄",
     systemPrompt: `Generate ONE tweet (max 280 chars).
 
 Pattern: Post-Launch What I'd Do Different
@@ -431,36 +307,36 @@ async function callDeepSeek(systemPrompt, userInput, apiKey) {
   }
 }
 
-// ── Helpers ─────────────────────────────────────────────────
+// ── CORS Headers ────────────────────────────────────────────
 
-function json(data, status = 200) {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: {
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-    },
-  });
+function corsHeaders() {
+  return {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+  };
 }
 
-// ── Route Handlers ──────────────────────────────────────────
+// ── Main Handler ────────────────────────────────────────────
 
-async function handleGenerate(request, env) {
-  if (request.method !== 'POST') {
-    return json({ error: 'Method not allowed' }, 405);
+export default async function handler(req, res) {
+  // CORS preflight
+  if (req.method === 'OPTIONS') {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    return res.status(204).end();
   }
 
-  let body;
-  try {
-    body = await request.json();
-  } catch {
-    return json({ error: 'Invalid JSON' }, 400);
+  // Only POST /api/generate
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { patternId, patternName, patternDescription, answers } = body;
+  const { patternId, patternName, patternDescription, answers } = req.body || {};
 
   if (!patternId || !answers) {
-    return json({ error: 'Missing patternId or answers' }, 400);
+    return res.status(400).json({ error: 'Missing patternId or answers' });
   }
 
   const pattern = PATTERNS[patternId];
@@ -469,8 +345,6 @@ async function handleGenerate(request, env) {
   if (pattern) {
     systemPrompt = `${GLOBAL_SYSTEM_PROMPT}\n\n${pattern.systemPrompt}`;
   } else {
-    // Fallback: client sent a pattern unknown to the server (sync lag).
-    // Construct a reasonable prompt from the metadata the client provides.
     console.warn(`Unknown pattern: ${patternId}, using fallback prompt`);
     systemPrompt = `${GLOBAL_SYSTEM_PROMPT}\n\nGenerate ONE tweet (max 280 chars).\nPattern: ${patternName || patternId}\nContext: ${patternDescription || 'share your experience'}\nUse the user's inputs to write an authentic, specific tweet.`;
   }
@@ -478,44 +352,17 @@ async function handleGenerate(request, env) {
   const userLines = Object.entries(answers).map(([key, value]) => `${key}: ${value}`);
   const userPrompt = `Generate ONE tweet using these inputs:\n${userLines.join('\n')}`;
 
+  const apiKey = process.env.DEEPSEEK_API_KEY;
+  if (!apiKey) {
+    console.error('DEEPSEEK_API_KEY not set');
+    return res.status(500).json({ error: 'Server configuration error. Please try again later.' });
+  }
+
   try {
-    const result = await callDeepSeek(systemPrompt, userPrompt, env.DEEPSEEK_API_KEY);
-    return json({ result, pattern: patternId });
+    const result = await callDeepSeek(systemPrompt, userPrompt, apiKey);
+    return res.status(200).json({ result, pattern: patternId });
   } catch (err) {
     console.error('DeepSeek generation failed:', err.message);
-    return json({ error: 'AI generation failed. Please try again.' }, 502);
+    return res.status(502).json({ error: 'AI generation failed. Please try again.' });
   }
-}
-
-// ── Main Handler ────────────────────────────────────────────
-
-export async function onRequest(context) {
-  const { request, env } = context;
-  const url = new URL(request.url);
-  const path = url.pathname;
-
-  // CORS preflight
-  if (request.method === 'OPTIONS') {
-    return new Response(null, {
-      status: 204,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type',
-      },
-    });
-  }
-
-  // POST /api/generate
-  if (path === '/api/generate') {
-    return handleGenerate(request, env);
-  }
-
-  // POST /api/webhooks/waffo — placeholder
-  if (path === '/api/webhooks/waffo') {
-    return json({ received: true });
-  }
-
-  // All other requests → serve static files
-  return context.next();
 }

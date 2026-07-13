@@ -2,10 +2,12 @@
 // FounderTxt — App Logic
 // ============================================================
 
-// ── API Base (Cloudflare Pages 后端) ──────────────────────
-const API_BASE = 'https://foundertxt.pages.dev';
+// ── API Base (Netlify Functions) ────────────────────────
+// 同源 Netlify 或跨域 GitHub Pages 均可工作
+const API_BASE = 'https://legendary-speculoos-a0046e.netlify.app';
 
 // ── 14 Tweet Patterns (embedded, no API call needed) ──────
+// ⚠️ 同步提醒：修改/新增 pattern 时需同步更新 functions/[[path]].js 中的 PATTERNS
 const PATTERNS = {
   "metric-lesson": {
     id: "metric-lesson", name: "Metric + Lesson", emoji: "💰",
@@ -170,6 +172,7 @@ const App = (() => {
   // ── Toast ────────────────────────────────────────────────
 
   let toastTimer = null;
+  let toastHideTimer = null;
 
   function showToast(message, duration = 2500) {
     const $container = document.getElementById('toast-container');
@@ -177,6 +180,7 @@ const App = (() => {
     const $msg = document.getElementById('toast-msg');
 
     if (toastTimer) clearTimeout(toastTimer);
+    if (toastHideTimer) clearTimeout(toastHideTimer);
 
     $msg.textContent = message;
     $toast.classList.add('mvs-toast--visible');
@@ -184,7 +188,7 @@ const App = (() => {
 
     toastTimer = setTimeout(() => {
       $toast.classList.remove('mvs-toast--visible');
-      setTimeout(() => { $container.style.display = 'none'; }, 300);
+      toastHideTimer = setTimeout(() => { $container.style.display = 'none'; }, 300);
     }, duration);
   }
 
@@ -295,6 +299,8 @@ const App = (() => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           patternId: selectedPattern.id,
+          patternName: selectedPattern.name,
+          patternDescription: selectedPattern.description,
           answers,
         }),
       });

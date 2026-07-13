@@ -4,9 +4,10 @@
   "private": true,
   "description": "FounderTxt — Tweets that sound like you, not ChatGPT",
   "scripts": {
-    "deploy": "wrangler pages deploy . --project-name=foundertxt --branch=main",
-    "dev": "wrangler pages dev .",
-    "secret": "wrangler pages secret put DEEPSEEK_API_KEY --project-name=foundertxt"
+    "deploy": "netlify deploy --prod",
+    "dev": "netlify dev",
+    "deploy:old": "wrangler pages deploy . --project-name=foundertxt --branch=main",
+    "secret": "netlify env:set DEEPSEEK_API_KEY"
   },
   "devDependencies": {
     "wrangler": "^4.0.0"
