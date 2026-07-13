@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
+  <meta name="x5-orientation" content="portrait">
+  <meta name="x5-fullscreen" content="true">
+  <meta name="x5-page-mode" content="app">
+  <meta name="format-detection" content="telephone=no,email=no">
+  <title>FounderTxt — Tweets That Sound Like You, Not ChatGPT</title>
+  <meta name="description" content="Pick a battle-tested founder template, fill in your details, and get a tweet in 30 seconds. 14 content patterns for indie hackers.">
+  <link rel="stylesheet" href="marvis-design-system.css">
+  <style>
+    /* ===== Layout Foundations ===== */
+
+    .landing-container {
+      max-width: var(--mvs-content-max-width);
+      margin: 0 auto;
+      padding: 0 var(--mvs-space-2xl);
+    }
+
+    .section {
+      padding: var(--mvs-space-5xl) 0;
+    }
+
+    .section--alt {
+      background: var(--mvs-bg-content);
+    }
+
+    .section-label {
+      font-size: var(--mvs-fs-caption);
+      font-weight: var(--mvs-fw-medium);
+      color: var(--mvs-text-tertiary);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: var(--mvs-space-sm);
+    }
+
+    .section-heading {
+      font-size: var(--mvs-fs-h1);
+      font-weight: var(--mvs-fw-bold);
+      color: var(--mvs-text-primary);
+      line-height: var(--mvs-lh-heading-lg);
+      margin: 0 0 var(--mvs-space-md) 0;
+    }
+
+    .section-subtext {
+      font-size: var(--mvs-fs-body);
+      color: var(--mvs-text-secondary);
+      line-height: var(--mvs-lh-body);
+      margin: 0 0 var(--mvs-space-3xl) 0;
+      max-width: 600px;
+    }
+
+    /* ===== Navigation ===== */
+
+    .landing-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: 56px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 150ms ease;
+    }
+
+    .landing-nav.scrolled {
+      border-bottom-color: rgba(15, 15, 15, 0.06);
+    }
+
+    .landing-nav__inner {
+      max-width: var(--mvs-content-max-width);
+      margin: 0 auto;
+      padding: 0 var(--mvs-space-2xl);
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .landing-nav__logo {
+      font-size: var(--mvs-fs-h2);
+      font-weight: var(--mvs-fw-bold);
+      color: var(--mvs-text-pure-black);
+      letter-spacing: -0.02em;
+    }
+
+    /* ===== Hero ===== */
+
+    .hero-section {
+      padding: 100px 0 var(--mvs-space-5xl) 0;
+      text-align: center;
+    }
+
+    .hero__badge {
+      display: inline-flex;
+      align-items: center;
+      height: 28px;
+      padding: 0 var(--mvs-space-md);
+      border-radius: var(--mvs-radius-pill-xs);
+      background: rgba(0, 0, 0, 0.04);
+      font-size: var(--mvs-fs-caption);
+      font-weight: var(--mvs-fw-medium);
+      color: var(--mvs-text-secondary);
+      margin-bottom: var(--mvs-space-2xl);
+    }
+
+    .hero__headline {
+      font-size: 48px;
+      font-weight: var(--mvs-fw-bold);
+      color: var(--mvs-text-pure-black);
+      line-height: 1.2;
+      margin: 0 auto var(--mvs-space-xl) auto;
+      max-width: 680px;
+      letter-spacing: -0.03em;
+    }
+
+    .hero__headline mark {
+      background: transparent;
+      color: var(--mvs-text-pure-black);
+      text-decoration: underline;
+      text-decoration-color: rgba(0, 0, 0, 0.12);
+      text-underline-offset: 6px;
+    }
+
+    .hero__subtext {
+      font-size: var(--mvs-fs-h2);
+      color: var(--mvs-text-secondary);
+      line-height: var(--mvs-lh-heading);
+      margin: 0 auto var(--mvs-space-3xl) auto;
+      max-width: 560px;
+    }
+
+    .hero__actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--mvs-space-md);
+      flex-wrap: wrap;
+    }
+
+    /* ===== Product Mockup ===== */
+
+    .mockup-section {
+      padding: var(--mvs-space-5xl) 0 0 0;
+    }
+
+    .mockup-frame {
+      max-width: 780px;
+      margin: 0 auto;
+      background: var(--mvs-bg-page);
+      border: 1px solid rgba(15, 15, 15, 0.08);
+      border-radius: var(--mvs-radius-modal);
+      overflow: hidden;
+      box-shadow: var(--mvs-shadow-modal);
+    }
+
+    .mockup-frame__titlebar {
+      display: flex;
+      align-items: center;
+      gap: var(--mvs-space-sm);
+      padding: var(--mvs-space-md) var(--mvs-space-lg);
+      background: var(--mvs-bg-content);
+      border-bottom: var(--mvs-border-subtle);
+    }
+
+    .mockup-frame__dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .mockup-frame__dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.12);
+    }
+
+    .mockup-frame__url {
+      flex: 1;
+      height: 24px;
+      border-radius: var(--mvs-radius-tab-sm);
+      background: var(--mvs-bg-input);
+      display: flex;
+      align-items: center;
+      padding: 0 var(--mvs-space-md);
+    }
+
+    .mockup-frame__url span {
+      font-size: var(--mvs-fs-caption);
+      color: var(--mvs-text-placeholder);
+    }
+
+    .mockup-frame__body {
+      display: grid;
+      grid-template-columns: 200px 1fr 1fr;
+      min-height: 380px;
+    }
+
+    .mockup-frame__sidebar {
+      background: var(--mvs-bg-content);
+      border-right: var(--mvs-border-subtle);
+      padding: var(--mvs-space-md);
+      display: flex;
+      flex-direction: column;
+      gap: var(--mvs-space-xs);
+    }
+
+    .mockup-frame__nav-item {
+      height: 32px;
+      border-radius: var(--mvs-radius-tab);
+      padding: 0 var(--mvs-space-md);
+      display: flex;
+      align-items: center;
+      font-size: var(--mvs-fs-caption);
+      font-weight: var(--mvs-fw-medium);
+      color: var(--mvs-text-primary);
+    }
+
+    .mockup-frame__nav-item--active {
+      background: var(--mvs-bg-active);
+    }
+
+    .mockup-frame__input-area {
+      padding: var(--mvs-space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--mvs-space-md);
+      border-right: var(--mvs-border-subtle);
+    }
+
+    .mockup-frame__label {
+      font-size: var(--mvs-fs-caption);
+      font-weight: var(--mvs-fw-medium);
+      color: var(--mvs-text-primary);
+    }
+
+    .mockup-frame__field {
+      height: 36px;
+      background: var(--mvs-bg-input);
+      border-radius: var(--mvs-radius-tab);
+      padding: 0 var(--mvs-space-md);
+      display: flex;
+      align-items: center;
+    }
+
+    .mockup-frame__field span {
+      font-size: var(--mvs-fs-caption);
+      color: var(--mvs-text-placeholder);
+    }
+
+    .mockup-frame__field--lg {
+      height: 72px;
+      align-items: flex-start;
+      padding-top: var(--mvs-space-sm);
+    }
+
+    .mockup-frame__result {
+      padding: var(--mvs-space-lg);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .mockup-frame__tweet {
+      flex: 1;
+      background: var(--mvs-bg-input);
+      border-radius: var(--mvs-radius-card-sm);
+      padding: var(--mvs-space-lg);
+      font-size: var(--mvs-fs-caption);
+      color: var(--mvs-text-secondary);
+      line-height: 1.6;
+    }
+
+    .mockup-frame__generate-btn {
+      height: 32px;
+      background: var(--mvs-btn-primary-bg);
+      color: var(--mvs-btn-primary-text);
+      border-radius: var(--mvs-radius-pill-xs);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--mvs-fs-caption);
+      font-weight: var(--mvs-fw-medium);
+      margin-top: var(--mvs-space-md);
+    }
+
+    /* ===== Competitor Comparison ===== */
+
+    .compare-table-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .compare-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: var(--mvs-fs-body-sm);
+    }
+
+    .compare-table thead th {
+      text-align: left;
+      padding: var(--mvs-space-md) var(--mvs-space-lg);
+      font-weight: var(--mvs-fw-medium);
+      color: var(--mvs-text-primary);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      white-space: nowrap;
+    }
+
+    .compare-table thead th:first-child {
+      font-weight: var(--mvs-fw-regular);
+      color: var(--mvs-text-tertiary);
+    }
+
+    .compare-table tbody td {
+      padding: var(--mvs-space-md) var(--mvs-space-lg);
+      color: var(--mvs-text-primary);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+      white-space: nowrap;
+    }
+
+    .compare-table tbody td:first-child {
+      color: var(--mvs-text-secondary);
+      font-weight: var(--mvs-fw-medium);
+    }
+
+    .compare-table .td-highlight {
+      font-weight: var(--mvs-fw-semibold);
+      color: var(--mvs-text-pure-black);
+    }
+
+    .compare-table .td-check {
+      color: var(--mvs-text-secondary);
+    }
+
+    .compare-table .td-cross {
+      color: var(--mvs-text-placeholder);
+    }
+
+    .compare-table .td-our {
+      background: rgba(0, 0, 0, 0.02);
+    }
+
+    .compare-table thead .th-our {
+      background: rgba(0, 0, 0, 0.03);
+      border-radius: var(--mvs-radius-tab) var(--mvs-radius-tab) 0 0;
+    }
+
+    /* ===== FAQ ===== */
+
+    .faq-list {
+      max-width: 680px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: var(--mvs-space-sm);
+    }
+
+    .faq-item {
+      border: var(--mvs-border-subtle);
+      border-radius: var(--mvs-radius-card-sm);
+      overflow: hidden;
+      transition: background-color 150ms ease;
+    }
+
+    .faq-item:hover {
+      background: rgba(0, 0, 0, 0.02);
+    }
+
+    .faq-item__q {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--mvs-space-md);
+      padding: var(--mvs-space-lg) var(--mvs-space-xl);
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-size: var(--mvs-fs-body);
+      font-weight: var(--mvs-fw-medium);
+      color: var(--mvs-text-primary);
+      line-height: var(--mvs-lh-body);
+      text-align: left;
+      font-family: var(--mvs-font-ui);
+    }
+
+    .faq-item__q svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      color: var(--mvs-text-icon);
+      transition: transform 250ms ease;
+    }
+
+    .faq-item.open .faq-item__q svg {
+      transform: rotate(45deg);
+    }
+
+    .faq-item__a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 250ms ease, padding 250ms ease;
+    }
+
+    .faq-item.open .faq-item__a {
+      max-height: 300px;
+      padding: 0 var(--mvs-space-xl) var(--mvs-space-lg) var(--mvs-space-xl);
+    }
+
+    .faq-item__a p {
+      margin: 0;
+      font-size: var(--mvs-fs-body-sm);
+      color: var(--mvs-text-secondary);
+      line-height: var(--mvs-lh-body-sm);
+    }
+
+    /* ===== Problem ===== */
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--mvs-space-2xl);
+    }
+
+    .problem-card {
+      text-align: center;
+      padding: var(--mvs-space-3xl) var(--mvs-space-2xl);
+    }
+
+    .problem-card__icon {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--mvs-radius-card-sm);
+      background: rgba(0, 0, 0, 0.03);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto var(--mvs-space-lg) auto;
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    .problem-card__title {
+      font-size: var(--mvs-fs-h3);
+      font-weight: var(--mvs-fw-medium);
+      color: var(--mvs-text-primary);
+      margin: 0 0 var(--mvs-space-sm) 0;
+    }
+
+    .problem-card__desc {
+      font-size: var(--mvs-fs-body-sm);
+      color: var(--mvs-text-secondary);
+      line-height: var(--mvs-lh-body-sm);
+      margin: 0;
+    }
+
+    /* ===== How It Works ===== */
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--mvs-space-3xl);
+    }
+
+    .step-card {
+      text-align: center;
+    }
+
+    .step-card__number {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.04);
+      color: var(--mvs-text-tertiary);
+      font-size: var(--mvs-fs-h2);
+      font-weight: var(--mvs-fw-semibold);
+      line-height: 40px;
+      margin: 0 auto var(--mvs-space-lg) auto;
+    }
+
+    .step-card__icon {
+      display: block;
+      width: 32px;
+      height: 32px;
+      margin: 0 auto var(--mvs-space-md) auto;
+      color: var(--mvs-text-icon);
+    }
+
+    .step-card__demo {
+      margin-top: var(--mvs-space-lg);
+      padding: var(--mvs-space-md) var(--mvs-space-lg);
+      background: var(--mvs-bg-input);
+      border-radius: var(--mvs-radius-input);
+      font-size: var(--mvs-fs-body-sm);
+      color: var(--mvs-text-placeholder);
+      line-height: var(--mvs-lh-body);
+      text-align: left;
+      max-width: 260px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ===== Pattern Showcase ===== */
+
+    .patterns-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--mvs-space-lg);
+    }
+
+    .pattern-card {
+      cursor: pointer;
+      transition: transform 150ms ease, background-color 150ms ease;
+    }
+
+    .pattern-card:hover {
+      transform: translateY(-4px);
+      background: rgba(0, 0, 0, 0.04);
+    }
+
+    .pattern-card__inner {
+      padding: var(--mvs-space-xl);
+      display: flex;
+      flex-direction: column;
+      gap: var(--mvs-space-sm);
+    }
+
+    .pattern-card__icon {
+      width: 24px;
+      height: 24px;
+      color: var(--mvs-text-icon);
+      flex-shrink: 0;
+    }
+
+    .pattern-card__name {
+      font-size: var(--mvs-fs-h3);
+      font-weight: var(--mvs-fw-medium);
+      color: var(--mvs-text-pure-black);
+      line-height: var(--mvs-lh-heading);
+    }
+
+    .pattern-card__example {
+      font-size: var(--mvs-fs-body-sm);
+      color: var(--mvs-text-secondary);
+      line-height: var(--mvs-lh-body-sm);
+      padding-left: var(--mvs-space-md);
+      border-left: 2px solid rgba(0, 0, 0, 0.06);
+      margin: var(--mvs-space-xs) 0 0 0;
+      font-style: italic;
+    }
+
+    .patterns-teaser {
+      text-align: center;
+      margin-top: var(--mvs-space-3xl);
+      font-size: var(--mvs-fs-body-sm);
+      color: var(--mvs-text-tertiary);
+    }
+
+    /* ===== Pricing ===== */
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--mvs-space-2xl);
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .pricing-card {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .pricing-card--pro {
+      border: 1px solid rgba(0, 0, 0, 0.10);
+    }
+
+    .pricing-card__body {
+      padding: 0 var(--mvs-space-xl) var(--mvs-space-xl) var(--mvs-space-xl);
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .pricing-card__price {
+      font-size: 40px;
+      font-weight: var(--mvs-fw-bold);
+      color: var(--mvs-text-pure-black);
+      line-height: 1;
+      margin: 0 0 var(--mvs-space-xs) 0;
+    }
+
+    .pricing-card__price small {
+      font-size: var(--mvs-fs-body-sm);
+      font-weight: var(--mvs-fw-regular);
+      color: var(--mvs-text-tertiary);
+    }
+
+    .pricing-card__features {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 var(--mvs-space-xl) 0;
+      flex: 1;
+    }
+
+    .pricing-card__features li {
+      display: flex;
+      align-items: center;
+      gap: var(--mvs-space-sm);
+      font-size: var(--mvs-fs-body-sm);
+      color: var(--mvs-text-primary);
+      line-height: var(--mvs-lh-body-sm);
+      padding: var(--mvs-space-xs) 0;
+    }
+
+    .pricing-card__check {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      color: var(--mvs-text-secondary);
+    }
+
+    /* ===== CTA ===== */
+
+    .cta-section {
+      padding: var(--mvs-space-5xl) 0;
+      text-align: center;
+    }
+
+    .cta-section__inner {
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    .cta-heading {
+      font-size: var(--mvs-fs-h1);
+      font-weight: var(--mvs-fw-bold);
+      color: var(--mvs-text-pure-black);
+      line-height: var(--mvs-lh-heading-lg);
+      margin: 0 0 var(--mvs-space-md) 0;
+    }
+
+    .cta-subtext {
+      font-size: var(--mvs-fs-body);
+      color: var(--mvs-text-secondary);
+      line-height: var(--mvs-lh-body);
+      margin: 0 0 var(--mvs-space-2xl) 0;
+    }
+
+    /* ===== Footer ===== */
+
+    .landing-footer {
+      border-top: var(--mvs-border-subtle);
+      padding: var(--mvs-space-3xl) 0;
+    }
+
+    .landing-footer__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--mvs-space-md);
+    }
+
+    .landing-footer__brand {
+      font-size: var(--mvs-fs-body-sm);
+      font-weight: var(--mvs-fw-medium);
+      color: var(--mvs-text-primary);
+    }
+
+    .landing-footer__links {
+      display: flex;
+      gap: var(--mvs-space-lg);
+    }
+
+    .landing-footer__links a {
+      font-size: var(--mvs-fs-caption);
+      color: var(--mvs-text-tertiary);
+      text-decoration: none;
+      transition: color 150ms ease;
+    }
+
+    .landing-footer__links a:hover {
+      color: var(--mvs-text-primary);
+    }
+
+    .landing-footer__copy {
+      font-size: var(--mvs-fs-caption);
+      color: var(--mvs-text-tertiary);
+    }
+
+    .landing-footer__tagline {
+      font-size: var(--mvs-fs-caption);
+      color: var(--mvs-text-tertiary);
+    }
+
+    /* ===== Toast ===== */
+
+    .toast-container {
+      position: fixed;
+      top: var(--mvs-space-2xl);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      pointer-events: none;
+    }
+
+    .toast-container .mvs-toast {
+      display: none;
+      min-width: 200px;
+    }
+
+    .toast-container .mvs-toast--visible {
+      display: flex;
+    }
+
+    /* ===== Responsive ===== */
+
+    @media (max-width: 1324px) {
+      .hero__headline { font-size: 36px; }
+      .patterns-grid { grid-template-columns: repeat(2, 1fr); }
+      .mockup-frame__body { grid-template-columns: 140px 1fr 1fr; min-height: 320px; }
+    }
+
+    @media (max-width: 1081px) {
+      .steps-grid { gap: var(--mvs-space-xl); }
+      .problem-grid { gap: var(--mvs-space-lg); }
+      .landing-container { padding: 0 var(--mvs-space-xl); }
+      .landing-nav__inner { padding: 0 var(--mvs-space-xl); }
+      .mockup-frame__body { grid-template-columns: 1fr 1fr; }
+      .mockup-frame__sidebar { display: none; }
+    }
+
+    @media (max-width: 901px) {
+      .hero__headline { font-size: 28px; }
+      .hero__subtext { font-size: var(--mvs-fs-h3); }
+      .problem-grid { grid-template-columns: 1fr; gap: var(--mvs-space-lg); }
+      .steps-grid { grid-template-columns: 1fr; gap: var(--mvs-space-2xl); }
+      .patterns-grid { grid-template-columns: 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; max-width: 400px; }
+      .hero-section { padding-top: 64px; }
+      .landing-nav { height: 48px; }
+      .landing-footer__inner { flex-direction: column; text-align: center; }
+      .section-heading { font-size: var(--mvs-fs-h2); }
+      .hero__actions { flex-direction: column; }
+      .mockup-frame__body { grid-template-columns: 1fr; }
+      .mockup-frame__input-area { border-right: none; border-bottom: var(--mvs-border-subtle); }
+      .compare-table thead th,
+      .compare-table tbody td { padding: var(--mvs-space-sm) var(--mvs-space-md); font-size: var(--mvs-fs-caption); }
+      .faq-item__q { font-size: var(--mvs-fs-body-sm); padding: var(--mvs-space-md) var(--mvs-space-lg); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== Navigation ===== -->
+  <nav class="landing-nav" id="navbar">
+    <div class="landing-nav__inner">
+      <span class="landing-nav__logo">FounderTxt</span>
+      <a href="#pricing" class="mvs-btn mvs-btn--primary">Try Free</a>
+    </div>
+  </nav>
+
+  <main>
+    <!-- ===== Hero ===== -->
+    <section id="hero" class="hero-section">
+      <div class="landing-container">
+        <div class="hero__badge mvs-reveal" data-reveal-delay="0">
+          Built for indie founders &amp; SaaS builders
+        </div>
+        <h1 class="hero__headline mvs-reveal" data-reveal-delay="100">
+          Tweets that sound like <mark>you</mark>,<br>not ChatGPT
+        </h1>
+        <p class="hero__subtext mvs-reveal" data-reveal-delay="200">
+          Pick a battle-tested template, fill in your details, and get a tweet in 30 seconds. No more staring at a blank compose box.
+        </p>
+        <div class="hero__actions mvs-reveal" data-reveal-delay="300">
+          <a href="#" class="mvs-btn mvs-btn--primary mvs-btn--lg">Start Writing Free</a>
+          <a href="#how" class="mvs-btn mvs-btn--default mvs-btn--lg">See How It Works</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Product Mockup ===== -->
+    <section id="demo" class="mockup-section">
+      <div class="landing-container">
+        <p class="section-label mvs-reveal">SEE IT IN ACTION</p>
+        <h2 class="section-heading mvs-reveal">Pick a pattern → fill 2 blanks → done</h2>
+        <p class="section-subtext mvs-reveal">No blank page. No staring at a cursor. Just pick what you want to say today.</p>
+        <div class="mockup-frame mvs-reveal" data-reveal-delay="200">
+          <div class="mockup-frame__titlebar">
+            <div class="mockup-frame__dots">
+              <div class="mockup-frame__dot"></div>
+              <div class="mockup-frame__dot"></div>
+              <div class="mockup-frame__dot"></div>
+            </div>
+            <div class="mockup-frame__url"><span>foundertxt.com</span></div>
+          </div>
+          <div class="mockup-frame__body">
+            <div class="mockup-frame__sidebar">
+              <div class="mockup-frame__nav-item">💰 Metric+Lesson</div>
+              <div class="mockup-frame__nav-item mockup-frame__nav-item--active">💀 Dead Feature</div>
+              <div class="mockup-frame__nav-item">🤦 Wrong Assumption</div>
+              <div class="mockup-frame__nav-item">📋 Checklist</div>
+              <div class="mockup-frame__nav-item">💬 User Message</div>
+              <div class="mockup-frame__nav-item">📉 Almost Quit</div>
+            </div>
+            <div class="mockup-frame__input-area">
+              <div>
+                <div class="mockup-frame__label">What feature did you build?</div>
+                <div class="mockup-frame__field"><span>A drag-and-drop dashboard builder</span></div>
+              </div>
+              <div>
+                <div class="mockup-frame__label">What did the usage data show?</div>
+                <div class="mockup-frame__field field--lg"><span>3 users in 2 months, all churned</span></div>
+              </div>
+              <div>
+                <div class="mockup-frame__label">What did you learn?</div>
+                <div class="mockup-frame__field"><span>Users wanted pre-built reports, not DIY</span></div>
+              </div>
+            </div>
+            <div class="mockup-frame__result">
+              <div class="mockup-frame__tweet">
+                I shipped a drag-and-drop dashboard builder.<br><br>
+                3 users tried it. All churned within a week.<br><br>
+                I spent 6 weeks building something users didn't want. They didn't need customization — they needed a one-click report.<br><br>
+                Hard lesson: ship the smallest thing first, even if it feels too simple.
+              </div>
+              <div class="mockup-frame__generate-btn">Copy Tweet</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Problem ===== -->
+    <section id="problem" class="section section--alt">
+      <div class="landing-container">
+        <p class="section-label mvs-reveal">THE PROBLEM</p>
+        <h2 class="section-heading mvs-reveal">Writing founder tweets shouldn't take 2 hours</h2>
+        <div class="problem-grid">
+          <div class="problem-card mvs-card mvs-reveal" data-reveal-delay="0">
+            <div class="problem-card__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(0,0,0,0.3)" stroke-width="1.5" stroke-linecap="round">
+                <rect x="3" y="3" width="18" height="18" rx="4"/>
+                <line x1="9" y1="9" x2="9" y2="15"/>
+                <line x1="15" y1="9" x2="15" y2="12"/>
+              </svg>
+            </div>
+            <h3 class="problem-card__title">Blank screen paralysis</h3>
+            <p class="problem-card__desc">You open X, stare at the compose box, and have no idea what to post today. So you close it. Again.</p>
+          </div>
+          <div class="problem-card mvs-card mvs-reveal" data-reveal-delay="100">
+            <div class="problem-card__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(0,0,0,0.3)" stroke-width="1.5" stroke-linecap="round">
+                <circle cx="12" cy="12" r="9"/>
+                <polyline points="12 6 12 12 16 15"/>
+              </svg>
+            </div>
+            <h3 class="problem-card__title">2–3 hours per tweet</h3>
+            <p class="problem-card__desc">A good thread takes an entire afternoon. You write 3, burn out, and quit posting for weeks.</p>
+          </div>
+          <div class="problem-card mvs-card mvs-reveal" data-reveal-delay="200">
+            <div class="problem-card__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(0,0,0,0.3)" stroke-width="1.5" stroke-linecap="round">
+                <rect x="2" y="4" width="20" height="14" rx="2"/>
+                <line x1="8" y1="20" x2="16" y2="20"/>
+                <line x1="12" y1="16" x2="12" y2="20"/>
+                <path d="M8 9l2 1.5L8 12"/>
+                <path d="M16 9l-2 1.5L16 12"/>
+              </svg>
+            </div>
+            <h3 class="problem-card__title">AI sounds like a robot</h3>
+            <p class="problem-card__desc">ChatGPT writes like a textbook. TweetHunter outputs bro-culture. Neither sounds like a real founder.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== How It Works ===== -->
+    <section id="how" class="section">
+      <div class="landing-container">
+        <p class="section-label mvs-reveal">HOW IT WORKS</p>
+        <h2 class="section-heading mvs-reveal">From blank page to ready-to-post in 30 seconds</h2>
+        <div class="steps-grid">
+          <div class="step-card mvs-reveal" data-reveal-delay="0">
+            <div class="step-card__number">1</div>
+            <svg class="step-card__icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="12" height="12" rx="2"/>
+              <rect x="18" y="2" width="12" height="12" rx="2"/>
+              <rect x="2" y="18" width="12" height="12" rx="2"/>
+              <rect x="18" y="18" width="12" height="12" rx="2"/>
+            </svg>
+            <h3 class="problem-card__title">Pick a pattern</h3>
+            <p class="problem-card__desc">Browse 14 battle-tested content templates. Each one is a proven tweet structure verified across 500+ high-performing founder posts.</p>
+            <div class="step-card__demo">💰  💀  🤦  📋  💬  📉  …</div>
+          </div>
+          <div class="step-card mvs-reveal" data-reveal-delay="150">
+            <div class="step-card__number">2</div>
+            <svg class="step-card__icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 8h16a4 4 0 0 1 0 8H4V8Z"/>
+              <line x1="8" y1="12" x2="20" y2="12"/>
+              <line x1="8" y1="22" x2="24" y2="22"/>
+              <line x1="8" y1="26" x2="18" y2="26"/>
+            </svg>
+            <h3 class="problem-card__title">Fill in the blanks</h3>
+            <p class="problem-card__desc">Answer 2–3 guided questions about your specific situation. No blank page. No decision fatigue. Just fill and go.</p>
+            <div class="step-card__demo">What metric surprised you?<br>&nbsp;</div>
+          </div>
+          <div class="step-card mvs-reveal" data-reveal-delay="300">
+            <div class="step-card__number">3</div>
+            <svg class="step-card__icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="6" y="6" width="20" height="20" rx="3"/>
+              <rect x="10" y="10" width="12" height="12" rx="1"/>
+              <line x1="14" y1="16" x2="18" y2="16"/>
+              <polyline points="14 19 16 21 20 15"/>
+            </svg>
+            <h3 class="problem-card__title">Copy &amp; post</h3>
+            <p class="problem-card__desc">AI writes your tweet in authentic founder voice. Copy with one click, paste into X, and you're done.</p>
+            <div class="step-card__demo" style="color: var(--mvs-text-secondary);">"$2.1k MRR, and 70% came from..."</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Pattern Showcase ===== -->
+    <section id="patterns" class="section section--alt">
+      <div class="landing-container">
+        <p class="section-label mvs-reveal">CONTENT PATTERNS</p>
+        <h2 class="section-heading mvs-reveal">14 patterns analyzed from 500+ high-performing founder tweets</h2>
+        <p class="section-subtext mvs-reveal">Each pattern is a proven content formula. You bring the specifics — we handle the structure.</p>
+        <div class="patterns-grid">
+          <!-- Pattern 1 -->
+          <div class="mvs-card pattern-card mvs-reveal" data-reveal-delay="0">
+            <div class="pattern-card__inner">
+              <svg class="pattern-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="20" x2="18" y2="10"/>
+                <line x1="12" y1="20" x2="12" y2="4"/>
+                <line x1="6" y1="20" x2="6" y2="14"/>
+              </svg>
+              <span class="pattern-card__name">Metric + Lesson</span>
+              <p class="pattern-card__example">"$2.1K MRR, and 70% of it came from one Reddit comment I almost didn't write. Lesson: reply to existing threads."</p>
+            </div>
+          </div>
+          <!-- Pattern 2 -->
+          <div class="mvs-card pattern-card mvs-reveal" data-reveal-delay="80">
+            <div class="pattern-card__inner">
+              <svg class="pattern-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9"/>
+                <line x1="8" y1="8" x2="16" y2="16"/>
+                <line x1="16" y1="8" x2="8" y2="16"/>
+              </svg>
+              <span class="pattern-card__name">Dead Feature</span>
+              <p class="pattern-card__example">"I shipped a drag-and-drop dashboard builder. 3 users tried it in 2 months. All churned within a week. Here's what I misread."</p>
+            </div>
+          </div>
+          <!-- Pattern 3 -->
+          <div class="mvs-card pattern-card mvs-reveal" data-reveal-delay="160">
+            <div class="pattern-card__inner">
+              <svg class="pattern-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                <line x1="12" y1="9" x2="12" y2="13"/>
+                <line x1="12" y1="17" x2="12.01" y2="17"/>
+              </svg>
+              <span class="pattern-card__name">Wrong Assumption</span>
+              <p class="pattern-card__example">"I thought annual plans would convert. Reality: monthly converted at 4x the rate. The data proved me wrong."</p>
+            </div>
+          </div>
+          <!-- Pattern 4 -->
+          <div class="mvs-card pattern-card mvs-reveal" data-reveal-delay="240">
+            <div class="pattern-card__inner">
+              <svg class="pattern-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="9" height="9" rx="1" stroke-dasharray="2 2"/>
+                <rect x="13" y="2" width="9" height="9" rx="1"/>
+                <path d="M6.5 6.5v0"/>
+                <path d="M17.5 6.5v0"/>
+              </svg>
+              <span class="pattern-card__name">Before/After Refactor</span>
+              <p class="pattern-card__example">"Rewrote the payment module. Latency: 2s → 200ms. Code: 40% less. The one trade-off I'd make differently."</p>
+            </div>
+          </div>
+          <!-- Pattern 5 -->
+          <div class="mvs-card pattern-card mvs-reveal" data-reveal-delay="320">
+            <div class="pattern-card__inner">
+              <svg class="pattern-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9"/>
+                <polyline points="12 7 12 12 15 15"/>
+              </svg>
+              <span class="pattern-card__name">Almost Quit Moment</span>
+              <p class="pattern-card__example">"Thursday, 3pm. $847 AWS bill. Zero paying users. I had the 'delete repo' dialog open. Here's what changed."</p>
+            </div>
+          </div>
+          <!-- Pattern 6 -->
+          <div class="mvs-card pattern-card mvs-reveal" data-reveal-delay="400">
+            <div class="pattern-card__inner">
+              <svg class="pattern-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="3"/>
+                <polyline points="8 12 11 15 16 9"/>
+              </svg>
+              <span class="pattern-card__name">Copy-Paste Checklist</span>
+              <p class="pattern-card__example">"My 8-step pre-launch checklist: 1) Set up error tracking, 2) Configure staging env, 3) Write rollback plan..."</p>
+            </div>
+          </div>
+        </div>
+        <p class="patterns-teaser">+ 8 more patterns available with Pro</p>
+      </div>
+    </section>
+
+    <!-- ===== Competitor Comparison ===== -->
+    <section id="compare" class="section">
+      <div class="landing-container">
+        <p class="section-label mvs-reveal">WHY US</p>
+        <h2 class="section-heading mvs-reveal">Purpose-built for founders. Not a generic AI wrapper.</h2>
+        <p class="section-subtext mvs-reveal">Every other tool starts with a blank text box. We start with what actually works.</p>
+        <div class="compare-table-wrap mvs-reveal" data-reveal-delay="150">
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th></th>
+                <th class="th-our">FounderTxt</th>
+                <th>TweetHunter</th>
+                <th>Typefully</th>
+                <th>ChatGPT</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Price</td>
+                <td class="td-highlight td-our"><strong>$5/mo</strong></td>
+                <td>$99/mo</td>
+                <td>$12.50/mo</td>
+                <td>$20/mo</td>
+              </tr>
+              <tr>
+                <td>Founder-specific templates</td>
+                <td class="td-check td-our">14 battle-tested patterns</td>
+                <td class="td-cross">Generic only</td>
+                <td class="td-cross">None</td>
+                <td class="td-cross">None</td>
+              </tr>
+              <tr>
+                <td>Template-first UX</td>
+                <td class="td-check td-our">Pick pattern, then write</td>
+                <td class="td-cross">Blank text box</td>
+                <td class="td-cross">Blank text box</td>
+                <td class="td-cross">Blank prompt</td>
+              </tr>
+              <tr>
+                <td>AI voice</td>
+                <td class="td-check td-our">Authentic founder</td>
+                <td class="td-cross">Bro-culture</td>
+                <td class="td-cross">Weak / generic</td>
+                <td class="td-cross">Textbook / press release</td>
+              </tr>
+              <tr>
+                <td>Learning curve</td>
+                <td class="td-check td-our">30 seconds</td>
+                <td>Days to learn</td>
+                <td class="td-check">Minutes</td>
+                <td class="td-check">Minutes</td>
+              </tr>
+              <tr>
+                <td>Built for</td>
+                <td class="td-check td-our">Indie hackers &amp; SaaS founders</td>
+                <td>Growth hackers</td>
+                <td>Writers</td>
+                <td>Everyone</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Pricing ===== -->
+    <section id="pricing" class="section">
+      <div class="landing-container">
+        <p class="section-label mvs-reveal">PRICING</p>
+        <h2 class="section-heading mvs-reveal" style="text-align:center">Start free, upgrade when you need more</h2>
+        <div class="pricing-grid">
+          <!-- Free -->
+          <div class="mvs-card pricing-card mvs-reveal" data-reveal-delay="0">
+            <div class="mvs-card__header">
+              <span class="mvs-card__title">Free</span>
+              <span class="mvs-badge">$0</span>
+            </div>
+            <div class="pricing-card__body">
+              <p class="pricing-card__price">Free <small>/ forever</small></p>
+              <ul class="pricing-card__features">
+                <li>
+                  <svg class="pricing-card__check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 8 6.5 11.5 13 4"/></svg>
+                  3 tweets per day
+                </li>
+                <li>
+                  <svg class="pricing-card__check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 8 6.5 11.5 13 4"/></svg>
+                  4 content patterns
+                </li>
+                <li>
+                  <svg class="pricing-card__check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 8 6.5 11.5 13 4"/></svg>
+                  Standard AI model
+                </li>
+              </ul>
+              <hr class="mvs-divider" style="margin-bottom: var(--mvs-space-lg);">
+              <a href="#" class="mvs-btn mvs-btn--default" style="width:100%">Get Started</a>
+            </div>
+          </div>
+          <!-- Pro -->
+          <div class="mvs-card pricing-card pricing-card--pro mvs-reveal" data-reveal-delay="150">
+            <div class="mvs-card__header">
+              <span class="mvs-card__title">Pro</span>
+              <span class="mvs-badge">$5/mo</span>
+            </div>
+            <div class="pricing-card__body">
+              <p class="pricing-card__price">$5 <small>/ month</small></p>
+              <ul class="pricing-card__features">
+                <li>
+                  <svg class="pricing-card__check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 8 6.5 11.5 13 4"/></svg>
+                  Unlimited tweets
+                </li>
+                <li>
+                  <svg class="pricing-card__check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 8 6.5 11.5 13 4"/></svg>
+                  All 14 content patterns
+                </li>
+                <li>
+                  <svg class="pricing-card__check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 8 6.5 11.5 13 4"/></svg>
+                  Tweet history
+                </li>
+                <li>
+                  <svg class="pricing-card__check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 8 6.5 11.5 13 4"/></svg>
+                  Priority AI model
+                </li>
+                <li>
+                  <svg class="pricing-card__check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 8 6.5 11.5 13 4"/></svg>
+                  Early access to new patterns
+                </li>
+              </ul>
+              <hr class="mvs-divider" style="margin-bottom: var(--mvs-space-lg);">
+              <a href="#" class="mvs-btn mvs-btn--primary" style="width:100%">Upgrade to Pro</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FAQ ===== -->
+    <section id="faq" class="section section--alt">
+      <div class="landing-container">
+        <p class="section-label mvs-reveal">FAQ</p>
+        <h2 class="section-heading mvs-reveal" style="text-align:center">You probably have questions</h2>
+        <div class="faq-list">
+          <div class="faq-item mvs-reveal" data-reveal-delay="0">
+            <button class="faq-item__q" onclick="this.parentElement.classList.toggle('open')">
+              How is this different from asking ChatGPT to write a tweet?
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="10" y1="2" x2="10" y2="18"/><line x1="2" y1="10" x2="18" y2="10"/></svg>
+            </button>
+            <div class="faq-item__a"><p>ChatGPT doesn't know the 14 content patterns that work specifically for indie founders on X. It writes generic tweets that sound like a press release. FounderTxt uses battle-tested templates and a founder-voice prompt tuned across 500+ real high-performing posts. Plus, you don't have to craft a prompt — just fill in your details.</p></div>
+          </div>
+          <div class="faq-item mvs-reveal" data-reveal-delay="80">
+            <button class="faq-item__q" onclick="this.parentElement.classList.toggle('open')">
+              Who is this for?
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="10" y1="2" x2="10" y2="18"/><line x1="2" y1="10" x2="18" y2="10"/></svg>
+            </button>
+            <div class="faq-item__a"><p>Indie hackers and SaaS founders who want to build an audience on X but struggle with what to post. If you've ever stared at a blank compose box for 20 minutes and then closed the tab, this is for you. Not for marketers, agencies, or people who want to schedule 100 posts at once.</p></div>
+          </div>
+          <div class="faq-item mvs-reveal" data-reveal-delay="160">
+            <button class="faq-item__q" onclick="this.parentElement.classList.toggle('open')">
+              Can I cancel anytime?
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="10" y1="2" x2="10" y2="18"/><line x1="2" y1="10" x2="18" y2="10"/></svg>
+            </button>
+            <div class="faq-item__a"><p>Yes. No contracts, no commitments. Cancel your Pro subscription anytime from your Waffo billing dashboard and you won't be charged again. You'll keep Pro access until the end of your current billing period.</p></div>
+          </div>
+          <div class="faq-item mvs-reveal" data-reveal-delay="240">
+            <button class="faq-item__q" onclick="this.parentElement.classList.toggle('open')">
+              What makes the 14 patterns different from each other?
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="10" y1="2" x2="10" y2="18"/><line x1="2" y1="10" x2="18" y2="10"/></svg>
+            </button>
+            <div class="faq-item__a"><p>Each pattern is a distinct content angle verified to get engagement. "Metric + Lesson" shares a surprising number. "Dead Feature" is self-deprecating and relatable. "Wrong Assumption" uses data to tell a story. "Copy-Paste Checklist" provides immediate value. Each one gives you a different way to talk about your journey — so you never feel repetitive.</p></div>
+          </div>
+          <div class="faq-item mvs-reveal" data-reveal-delay="320">
+            <button class="faq-item__q" onclick="this.parentElement.classList.toggle('open')">
+              Do I own the tweets I generate?
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="10" y1="2" x2="10" y2="18"/><line x1="2" y1="10" x2="18" y2="10"/></svg>
+            </button>
+            <div class="faq-item__a"><p>Yes. 100%. Every tweet generated is yours to use, edit, remix, or delete as you see fit. We don't claim any ownership over AI-generated content produced through your inputs.</p></div>
+          </div>
+          <div class="faq-item mvs-reveal" data-reveal-delay="400">
+            <button class="faq-item__q" onclick="this.parentElement.classList.toggle('open')">
+              What if the AI output doesn't sound like me?
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="10" y1="2" x2="10" y2="18"/><line x1="2" y1="10" x2="18" y2="10"/></svg>
+            </button>
+            <div class="faq-item__a"><p>Hit "Regenerate" for a different take, or tweak the output before posting. The AI gives you a strong first draft in ~5 seconds — you're always in control of the final version. Over time, the more specific your inputs, the more the output will match your style.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section id="cta" class="cta-section section--alt">
+      <div class="landing-container cta-section__inner">
+        <h2 class="cta-heading mvs-reveal">Ready to stop staring at a blank page?</h2>
+        <p class="cta-subtext mvs-reveal" data-reveal-delay="100">Join indie hackers who get their tweets done in 30 seconds instead of 2 hours.</p>
+        <a href="#" class="mvs-btn mvs-btn--primary mvs-btn--lg mvs-reveal" data-reveal-delay="200">Start Writing Free</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="landing-footer">
+    <div class="landing-container landing-footer__inner">
+      <div style="display:flex; align-items:center; gap: var(--mvs-space-lg);">
+        <span class="landing-footer__brand">FounderTxt</span>
+        <span class="landing-footer__tagline">Built for indie hackers</span>
+      </div>
+      <div style="display:flex; align-items:center; gap: var(--mvs-space-xl);">
+        <nav class="landing-footer__links">
+          <a href="tos.html">Terms of Service</a>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="refund.html">Refund Policy</a>
+        </nav>
+        <span class="landing-footer__copy">&copy; 2026 FounderTxt</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== Toast Container ===== -->
+  <div class="toast-container" id="toast-container">
+    <div class="mvs-toast" id="toast">
+      <span class="mvs-toast__title" id="toast-msg">Copied!</span>
+    </div>
+  </div>
+
+  <!-- ===== Scripts ===== -->
+  <script>
+    (function() {
+      /* ---- Scroll reveal ---- */
+      var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var reveals = document.querySelectorAll('.mvs-reveal');
+
+      if (prefersReduced) {
+        reveals.forEach(function(el) { el.classList.add('mvs-visible'); });
+      } else {
+        var observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              var el = entry.target;
+              var delay = parseInt(el.getAttribute('data-reveal-delay') || '0', 10);
+              setTimeout(function() {
+                el.classList.add('mvs-visible');
+              }, delay);
+              observer.unobserve(el);
+            }
+          });
+        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+        reveals.forEach(function(el) { observer.observe(el); });
+      }
+
+      /* ---- Nav scroll shadow ---- */
+      var navbar = document.getElementById('navbar');
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 0) {
+          navbar.classList.add('scrolled');
+        } else {
+          navbar.classList.remove('scrolled');
+        }
+      });
+
+      /* ---- Smooth scroll ---- */
+      document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          var target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+    })();
+  </script>
+
+</body>
+</html>
