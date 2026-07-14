@@ -4,12 +4,17 @@
   "private": true,
   "description": "FounderTxt — Tweets that sound like you, not ChatGPT",
   "scripts": {
-    "deploy": "netlify deploy --prod",
-    "dev": "netlify dev",
-    "deploy:old": "wrangler pages deploy . --project-name=foundertxt --branch=main",
-    "secret": "netlify env:set DEEPSEEK_API_KEY"
+    "deploy": "vercel --prod",
+    "dev": "vercel dev",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.1",
+    "pg": "^8.22.0"
   },
   "devDependencies": {
-    "wrangler": "^4.0.0"
+    "playwright": "^1.61.1",
+    "vitest": "^4.1.10"
   }
 }
