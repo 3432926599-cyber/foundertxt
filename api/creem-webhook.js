@@ -1,34 +1,32 @@
 // ============================================================
 // FounderTxt — Vercel Function: POST /api/creem-webhook
 // 处理 Creem 订阅事件 → 更新 Supabase Auth user_metadata.app_tier
-// Vercel config: module.exports.config = { api: { bodyParser: false } }
+// ESM: export const config 让 Vercel 禁用 bodyParser（HMAC 验签必须）
 // ============================================================
 
-const crypto = require('crypto');
+import crypto from 'crypto';
+import { createClient } from '@supabase/supabase-js';
 
-const CORS_HEADERS = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type, creem-signature',
-};
+export const config = { api: { bodyParser: false } };
 
+let _supabase = null;
 function getSupabase() {
+  if (_supabase) return _supabase;
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key) return null;
   try {
-    const { createClient } = require('@supabase/supabase-js');
-    return createClient(url, key, { auth: { autoRefreshToken: false, persistSession: false } });
+    _supabase = createClient(url, key, { auth: { autoRefreshToken: false, persistSession: false } });
   } catch { return null; }
+  return _supabase;
 }
 
-function verifySignature(payload, signature, secret) {
+export function verifySignature(payload, signature, secret) {
   if (!secret || !signature) return false;
   const computed = crypto.createHmac('sha256', secret).update(payload).digest('hex');
   return crypto.timingSafeEqual(Buffer.from(computed), Buffer.from(signature));
 }
 
-// 读取原始 request body（禁用 bodyParser 时需要）
 function readBody(req) {
   return new Promise((resolve, reject) => {
     let data = '';
@@ -38,7 +36,7 @@ function readBody(req) {
   });
 }
 
-async function handler(req, res) {
+export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, creem-signature');
@@ -122,7 +120,3 @@ async function handler(req, res) {
     return res.status(500).json({ error: 'Update error' });
   }
 }
-
-module.exports = handler;
-module.exports.config = { api: { bodyParser: false } };
-module.exports._internals = { verifySignature };

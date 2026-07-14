@@ -11,9 +11,8 @@ const mockGetUserById = vi.fn();
 const mockUpdateUserById = vi.fn().mockResolvedValue({});
 const mockListUsers = vi.fn();
 
-// Install a mock for @supabase/supabase-js into the Node.js require cache
-// before any of our modules try to require it
-const mockSupabaseModule = {
+// ESM-compatible mock for creem-webhook (vi.mock covers ESM import)
+vi.mock('@supabase/supabase-js', () => ({
   createClient: vi.fn(() => ({
     auth: {
       admin: {
@@ -23,18 +22,25 @@ const mockSupabaseModule = {
       },
     },
   })),
-};
+}));
 
-// Resolve the real module path and replace it
+// CJS require.cache mock for waffo-webhook (require bypasses vi.mock)
 import { createRequire } from 'module';
-const req = createRequire(import.meta.url);
-const supabasePath = req.resolve('@supabase/supabase-js');
-req.cache[supabasePath] = {
-  id: supabasePath,
-  path: supabasePath,
-  filename: supabasePath,
-  loaded: true,
-  exports: mockSupabaseModule,
+const _req = createRequire(import.meta.url);
+const supabasePath = _req.resolve('@supabase/supabase-js');
+_req.cache[supabasePath] = {
+  id: supabasePath, path: supabasePath, filename: supabasePath, loaded: true,
+  exports: {
+    createClient: vi.fn(() => ({
+      auth: {
+        admin: {
+          getUserById: mockGetUserById,
+          updateUserById: mockUpdateUserById,
+          listUsers: mockListUsers,
+        },
+      },
+    })),
+  },
   children: [],
 };
 
@@ -43,11 +49,9 @@ process.env.SUPABASE_SERVICE_ROLE_KEY = 'test-key';
 process.env.CREEM_WEBHOOK_SECRET = 'creem-secret';
 
 // ============================================================
-// Creem webhook — verifySignature (CJS module)
+// Creem webhook — verifySignature (ESM module, dynamic import)
 // ============================================================
-const creem = require('../api/creem-webhook.js');
-const creemHandler = creem;
-const { verifySignature } = creem._internals;
+const { default: creemHandler, verifySignature } = await import('../api/creem-webhook.js');
 
 // ── 兼容包装：Creem handler 需要 stream mock（readBody） ─────
 function callCreemHandler(event) {
